@@ -1,0 +1,233 @@
+{
+  "entities": [
+    {
+      "name": "Project",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "name",
+          "type": "varchar",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "status",
+          "type": "varchar",
+          "nullable": false,
+          "default": "active",
+          "values": [
+            "active",
+            "completed",
+            "archived"
+          ],
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "start_date",
+          "type": "date",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "end_date",
+          "type": "date",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "name"
+          ],
+          "unique": true
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Task",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "varchar",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": false
+        },
+        {
+          "name": "status",
+          "type": "varchar",
+          "nullable": false,
+          "default": "pending",
+          "values": [
+            "pending",
+            "in_progress",
+            "completed"
+          ],
+          "isIndex": false,
+          "isUnique": false
+        },
+        {
+          "name": "due_date",
+          "type": "date",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": false
+        },
+        {
+          "name": "project_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "title"
+          ],
+          "unique": false
+        },
+        {
+          "fields": [
+            "project_id"
+          ],
+          "unique": false
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Comment",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": false
+        },
+        {
+          "name": "task_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        },
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "task_id"
+          ],
+          "unique": false
+        },
+        {
+          "fields": [
+            "user_id"
+          ],
+          "unique": false
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Assignment",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        },
+        {
+          "name": "task_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": false
+        },
+        {
+          "name": "role",
+          "type": "varchar",
+          "nullable": false,
+          "default": "member",
+          "values": [
+            "member",
+            "manager"
+          ],
+          "isIndex": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "task_id"
+          ],
+          "unique": false
+        },
+        {
+          "fields": [
+            "user_id"
+          ],
+          "unique": false
+        }
+      ],
+      "uniques": []
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Project",
+      "to": "Task",
+      "type": "OneToMany"
+    },
+    {
+      "from": "Task",
+      "to": "Comment",
+      "type": "OneToMany"
+    },
+    {
+      "from": "Task",
+      "to": "Assignment",
+      "type": "OneToMany"
+    }
+  ],
+  "_removedEntities": []
+}
